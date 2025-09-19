@@ -1,0 +1,50 @@
+<!--pages/train-records/train-records.wxml-->
+
+<view class="container">
+  <!-- 统计卡片 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-label">总训练次数</text>
+      <text class="stat-value">{{stats.totalTrainings}}次</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-label">平均速度</text>
+      <text class="stat-value">{{stats.averageSpeed}}ms/词</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-label">平均正确率</text>
+      <text class="stat-value">{{stats.accuracy}}</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-label">总训练时长</text>
+      <text class="stat-value">{{stats.totalDuration}}秒</text>
+    </view>
+  </view>
+
+  <!-- 训练记录 -->
+  <view class="section-title">详细训练记录</view>
+  <scroll-view class="record-list" scroll-y>
+    <block wx:for="{{records}}" wx:key="index">
+      <view class="record-item">
+        <view class="record-header">
+          <text class="day">第{{item.day}}天训练</text>
+          <text class="date">{{item.date}}</text>
+        </view>
+        <view class="numbers">
+        <view class="row">
+          <text>训练时长</text>
+          <text>{{item.duration}}秒</text>
+        </view>
+        <view class="row">
+          <text>正确率</text>
+          <text>{{item.accuracy}}</text>
+        </view>
+        <view class="row">
+          <text>阅读速度/</text>
+          <text>{{item.speed}}ms/词</text>
+        </view>
+      </view>
+    </view>
+   </block>
+  </scroll-view>
+ </view>

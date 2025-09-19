@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "阅读训练",
+  "usingComponents": {},
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": false,
+  "pageOrientation": "landscape"
+  
+}

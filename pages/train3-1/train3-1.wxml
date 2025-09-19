@@ -1,0 +1,117 @@
+<!-- pages/train/train.wxml -->
+<view class="container">
+  <!-- 倒计时 -->
+  <view wx:if="{{showCountdown}}" class="countdown">{{countdown}}</view>
+  <!-- 阶段提示（可点击开始） -->
+  <view 
+    wx:if="{{showPhaseTip}}" 
+    class="phase-tip" 
+    bindtap="handleStartPractice"
+  >
+    <text class="phase-text">{{phaseTipText}}</text>
+  </view>
+
+  <!-- 注视点 -->
+  <view wx:if="{{showFirstFixation}}" class="fixation">+</view>
+  
+  <!-- 空白屏 -->
+  <view wx:if="{{showBlankScreen}}" class="blank-screen"></view>
+
+  <!-- 全屏点击区域（核心修复部分） -->
+  <view 
+    wx:if="{{showSentence}}" 
+    class="full-screen-container"
+    bindtap="handleTap"
+  >
+    <view class="sentence-container">
+      <!-- 练习阶段 -->
+      <block wx:if="{{isPractice}}">
+        <text class="sentence">{{displaySentence}}</text>
+        <view 
+          wx:if="{{showContinueTip}}" 
+          class="continue-tip"
+        ></view>
+      </block>
+
+      <!-- 正式阶段 -->
+      <block wx:else>
+        <text class="sentence">
+          <block 
+            wx:for="{{wordArray}}" 
+            wx:key="index"
+          >
+            <text 
+              class="word {{index <= hiddenWordIndex ? 'hidden' : ''}}"
+            >{{item}}</text>
+          </block>
+        </text>
+      </block>
+    </view>
+  </view>
+
+  <!-- 选择题 -->
+<!-- 修改后的question-container部分 -->
+<view wx:if="{{showQuestions}}" class="question-container">
+  <!-- 问题文本 - 跨整个网格宽度 -->
+  <view class="question-text">{{currentQuestion.question}}</view>
+  
+  <!-- 选项网格 -->
+  <view class="options-grid">
+    <block wx:for="{{currentQuestion.options}}" wx:key="index">
+      <button 
+        class="option-btn" 
+        data-index="{{index}}" 
+        bindtap="handleAnswer"
+      >{{item}}</button>
+    </block>
+  </view>
+</view>
+
+  <!-- 反馈提示 -->
+  <view 
+    wx:if="{{showFeedback}}" 
+    class="feedback {{isPractice ? 'practice' : (feedbackSymbol.includes('√') ? 'correct' : 'incorrect')}}"
+  >
+    <text class="feedback-icon">{{feedbackSymbol}}</text>
+  </view>
+
+  <!-- 统计面板 -->
+  <view wx:if="{{showStats}}" class="stats-container">
+    <view class="stats-card">
+      <!-- 标题 -->
+      <view class="stats-header">训练完成！</view>
+      
+      <!-- 统计数据网格 -->
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-label">总时长:</text>
+          <text class="stat-value">{{statsData.totalTime}}秒</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">正确题数:</text>
+          <text class="stat-value">{{statsData.correctCount}}</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">错误题数:</text>
+          <text class="stat-value">{{statsData.incorrectCount}}</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">正确率:</text>
+          <text class="stat-value">{{statsData.accuracy}}%</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">最高速度:</text>
+          <text class="stat-value">{{statsData.minDuration}}ms/词</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">正确均速:</text>
+          <text class="stat-value">{{statsData.correctSpeed}}ms/词</text>
+        </view>
+        <view class="stat-item full-width">
+          <text class="stat-label">训练天数:</text>
+          <text class="stat-value">Day{{statsData.currentDay}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

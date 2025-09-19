@@ -1,0 +1,39 @@
+<view >
+    <view class="top-view">
+      <view class="user">
+        <view class="row">
+          <image class="avatar" src="{{userInfo.photo}}"></image>
+          <view class="name">
+            <view bindtap="logout">{{userInfo.name}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="numbers">
+        <view class="row">
+          <text>组别</text>
+          <text>{{userInfo.group}}</text>
+        </view>
+        <view class="row">
+          <text>性别</text>
+          <text>{{userInfo.gender}}</text>
+        </view>
+        <view class="row">
+          <text>年级</text>
+          <text>{{userInfo.grade}}</text>
+        </view>
+        <view class="row">
+          <text>班级</text>
+          <text>{{userInfo.class}}</text>
+        </view>
+        <view class="row">
+          <text>年龄</text>
+          <text>{{userInfo.age}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="list">
+  <view class="list-item" bindtap="goToTrainRecords">
+    <text class="item-title">训练记录</text>
+  </view>
+</view>

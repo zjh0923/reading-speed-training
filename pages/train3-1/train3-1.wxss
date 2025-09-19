@@ -1,0 +1,294 @@
+.container {
+  position: relative;     /* 相对定位（子元素绝对定位的参照） */
+  width: 100vw;
+  height: 100vh; /* 使用视口高度 */
+  overflow: hidden; /* 禁用滚动 */
+  display: flex;          /* 启用弹性布局 */
+  flex-direction: column;/* 垂直排列子元素 */
+  align-items: center;    /* 水平居中 */
+  justify-content: center;/* 垂直居中 */
+  background-color: #f0f0f0;
+  box-sizing: border-box; /* 盒模型计算方式 */
+}
+/* 倒计时 */
+.countdown {
+  font-size: 150px;       /* 超大字号 */
+  color: #333;            /* 深灰色 */
+  font-weight: bold;      /* 粗体 */
+}
+/* 练习阶段提示 */
+.phase-text {
+  text-align: center;     /* 文字居中 */
+  white-space: pre-wrap;  /* 保留换行符 */
+  font-size: 23px;        /* 提示文字大小 */
+  color: #333;            /* 文字颜色 */
+  font-weight: 500;       /* 中等字重 */
+  line-height: 1.6;       /* 1.6倍行距 */
+}
+/* 新增：阶段提示容器 */
+.phase-tip {        /* 保证容器宽度满屏 */
+  display: flex;         /* 启用弹性布局 */
+  justify-content: center; /* 水平居中 */
+  padding: 20px;         /* 增加呼吸空间 */
+}
+/* 注视点 */
+.fixation {
+  position: fixed;        /* 固定定位 */
+  top: 50%;               /* 垂直居中定位 */
+  left: 50%;              /* 水平居中定位 */
+  transform: translate(-50%, -50%); /* 精确居中 */
+  font-size: 48px;        /* +号大小 */
+  font-weight: bold;      /* 粗体 */
+  color: #333;            /* 深灰色 */
+  margin: 0;              /* 清除边距 */
+}
+/* 空白屏幕 */
+.blank-screen {
+  width: 100%;
+  height: 100%;
+}
+/* 句子容器 */
+.sentence-container {
+  width: 80%;             /* 宽度占屏幕80% */
+  max-width: 600px;       /* 最大宽度限制 */
+  padding: 20px;          /* 内边距 */
+}
+/* 句子文字样式 */
+.sentence {
+  height: 100%;           /* 继承容器高度 */
+  width: 100%;            /* 继承容器宽度 */
+  font-size: 24px;        /* 正文字号 */
+  line-height: 1.6;       /* 行间距 */
+  text-align: center;     /* 文字居中 */
+  letter-spacing: normal; /* 取消字间距 */
+}
+/* 词消失 */
+.word {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+  margin-right: 0;
+}
+.word.hidden {
+  opacity: 0;
+}
+
+.continue-tip {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 15px;
+  width: 100%;
+}
+/* 新增/修改的CSS */
+/* 问题容器 */
+.question-container {
+  width: 90%;
+  max-width: 600px; /* 稍微增加最大宽度 */
+  background-color: white;
+  border-radius: 12px; /* 增大圆角 */
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  font-size: 18px;
+}
+
+/* 问题文本 */
+.question-text {
+  text-align: center;
+  padding: 15px 0 25px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* 选项网格容器 */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 两列 */
+  grid-template-rows: auto auto; /* 两行 */
+  gap: 16px; /* 网格间距 */
+}
+
+/* 选项按钮 */
+.option-btn {
+  padding: 18px 10px;
+  font-size: 17px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  text-align: center;
+  color: #212529;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin: 0; /* 移除默认边距 */
+}
+
+/* 按钮悬停效果 */
+.option-btn:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 按钮激活效果 */
+.option-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+/* 反馈 */
+.feedback {
+  position: absolute;      /* 绝对定位 */
+  top: 50%;                /* 垂直居中 */
+  left: 50%;               /* 水平居中 */
+  transform: translate(-50%, -50%); /* 精确居中 */
+  padding: 30px 40px;      /* 内边距 */
+  border-radius: 12px;     /* 大圆角 */
+  display: flex;           /* 弹性布局 */
+  align-items: center;     /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  line-height: 1.5;        /* 行高 */
+  color: black;            /* 文字颜色 */
+  font-size: 25px;
+  width: auto;          /* 根据内容自适应宽度 */
+  min-width: 200px;     /* 最小宽度防止内容过窄 */
+  text-align: center;  
+  font-size: 90px; 
+  font-weight: bold;/* 文本水平居中 */
+}
+/* 练习阶段反馈 */
+.feedback.practice {
+  font-size: 80px;
+  font-weight: bold;
+}
+/* 正确反馈通用样式 */
+.feedback-icon {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  word-break: break-all;
+  width: 80%;
+}
+/* 正式训练错误反馈 */
+.feedback.incorrect {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+  word-break: break-all;
+  width: 80%;
+}
+/* 控制面板 */
+.stats-container {
+  width: 80%;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;  
+}
+
+/* 控制面板 */
+.stats-title {
+  white-space: pre-wrap;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  text-align: left;
+  padding: 10px 0;
+  text-align: center;  
+}
+/* 全屏遮罩 句子容器*/
+.full-screen-container {
+  position: fixed;         /* 固定定位 */
+  top: 0;                  /* 顶部对齐 */
+  left: 0;                 /* 左侧对齐 */
+  display: flex;           /* 弹性布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
+}
+/* 调整提示文字样式 */
+.continue-tip {
+  color: rgb(12, 12, 12);
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
+}
+/* 统一所有居中元素的容器样式 */
+.fixation, 
+.feedback,
+.full-screen-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;  /* 新增 */
+  height: 100%;  /* 新增 */
+  display: flex;
+  justify-content: center;  /* 新增 */
+  align-items: center;      /* 新增 */
+}
+/* 确保全屏容器内容居中 */
+.full-screen-container .sentence-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 水平居中 */
+}
+.resume-tip {
+  position: fixed;
+  top: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  padding: 10rpx 20rpx;
+  border-radius: 10rpx;
+  z-index: 999;
+  font-size: 28rpx;
+}
+
+/* 统计面板 */
+.stats-container {
+  width: 90%;
+  max-width: 700px;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  background-color: white;
+}
+
+.stats-header {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-item.full-width {
+  grid-column: span 2;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}

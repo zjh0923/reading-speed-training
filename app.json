@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/my/my",
+    "pages/train-records/train-records",
+    "pages/train1-1/train1-1",
+    "pages/train3-1/train3-1",
+    "pages/train2-1/train2-1"
+  ],
+  "tabBar": {
+    "selectedColor": "#1c1c1b",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "训练",
+        "iconPath": "images/icon/home.png",
+        "selectedIconPath": "images/icon/home-o.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/icon/my.png",
+        "selectedIconPath": "images/icon/my-o.png"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarTitleText": "阅读训练",
+    "navigationBarBackgroundColor": "#fff",
+    "enablePullDownRefresh": false,
+    "backgroundColor": "#00FFFF",
+    "backgroundTextStyle": "light",
+    "navigationBarTextStyle": "black",
+    "shareTimeline": {}
+  },
+  "usingComponents": {
+  },
+  "sitemapLocation": "sitemap.json",
+  "functionalPages": false,
+  "lazyCodeLoading": "requiredComponents"
+}
