@@ -99,42 +99,48 @@ async function loadCurrentAccount() {
 // Index 页面
 async function renderHome() {
   const current = await loadCurrentAccount();
-  if (!current) {
-    alert('未找到用户信息，请先登录');
-    navigate('#/login');
-    return;
-  }
+  const isLoggedIn = current && current.accountId;
   
-  let user = current;
-  let maxAllowedDay = 1;
+  let user = current || {};
+  let maxAllowedDay = 0; // 默认不允许开始训练
   
-  // 如果本地没有完整信息，尝试从后端拉取
-  if (!user.name && isApiEnabled && appState.currentAccountId) {
-    try {
-      const res = await api.getUser(appState.currentAccountId);
-      user = res?.data || res || null;
-      if (user) {
-        // 更新本地accountList
-        const accountList = storage.get('accountList', []);
-        const updatedList = accountList.map(acc => 
-          acc.accountId === user.accountId ? user : acc
-        );
-        if (!updatedList.find(acc => acc.accountId === user.accountId)) {
-          updatedList.push(user);
+  // 如果已登录，计算最大可开放天数
+  if (isLoggedIn) {
+    maxAllowedDay = 1; // 初始值
+    
+    // 如果本地没有完整信息，尝试从后端拉取
+    if (!user.name && isApiEnabled && appState.currentAccountId) {
+      try {
+        const res = await api.getUser(appState.currentAccountId);
+        user = res?.data || res || null;
+        if (user) {
+          // 更新本地accountList
+          const accountList = storage.get('accountList', []);
+          const updatedList = accountList.map(acc => 
+            acc.accountId === user.accountId ? user : acc
+          );
+          if (!updatedList.find(acc => acc.accountId === user.accountId)) {
+            updatedList.push(user);
+          }
+          storage.set('accountList', updatedList);
+          appState.userInfo = user;
         }
-        storage.set('accountList', updatedList);
-        appState.userInfo = user;
-      }
-    } catch {}
+      } catch {}
+    }
+    
+    maxAllowedDay = calculateMaxAllowedDay(user?.createTime);
   }
-  
-  maxAllowedDay = calculateMaxAllowedDay(user?.createTime);
 
   // 后端优先获取完成记录（一次性取全，用于渲染所有 Day 的完成状态）
   let doneDaySet = new Set();
   let doneDayMeta = new Map(); // day -> { time, accuracy }
   let loadedFromBackend = false;
   (async () => {
+    if (!isLoggedIn) {
+      // 未登录时直接渲染，不加载记录
+      render();
+      return;
+    }
     if (isApiEnabled && appState.currentAccountId) {
       try {
         const res = await api.listTrainRecords({ accountId: appState.currentAccountId });
@@ -170,10 +176,18 @@ async function renderHome() {
 
   function dayCard(day) {
     const isDone = doneDaySet.has(day);
-    const disabled = day > maxAllowedDay || isDone;
+    const disabled = !isLoggedIn || day > maxAllowedDay || isDone;
     const week = Math.ceil(day / 4);
     const meta = doneDayMeta.get(day);
     const metaHtml = isDone && meta ? `<div class="day-meta">${new Date(meta.time).toLocaleString()} · 正确率 ${isNaN(meta.accuracy)?0:meta.accuracy}%</div>` : '';
+    let buttonText = '开 始';
+    if (!isLoggedIn) {
+      buttonText = '请先登录';
+    } else if (isDone) {
+      buttonText = '已完成';
+    } else if (day > maxAllowedDay) {
+      buttonText = '未开放';
+    }
     return `
       <div class="day">
         <img class="img" src="/images/index/${day}.png" alt="${day}" />
@@ -181,7 +195,7 @@ async function renderHome() {
           <span class="day-text">Day${day}</span>
           ${metaHtml}
         </div>
-        <button class="button ${isDone ? 'completed' : ''}" data-day="${day}" ${disabled ? 'disabled' : ''}>${isDone ? '已完成' : (day > maxAllowedDay ? '未开放' : '开 始')}</button>
+        <button class="button ${isDone ? 'completed' : ''}" data-day="${day}" ${disabled ? 'disabled' : ''}>${buttonText}</button>
       </div>
     `;
   }
@@ -210,6 +224,11 @@ async function renderHome() {
     document.querySelectorAll('.button[data-day]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const day = parseInt(btn.getAttribute('data-day'));
+        if (!isLoggedIn) {
+          alert('请先登录以开始训练');
+          navigate('#/login');
+          return;
+        }
         if (doneDaySet.has(day)) { alert('已完成该训练'); return; }
         // 确保user信息已加载
         const currentUser = user || appState.userInfo || await loadCurrentAccount();
