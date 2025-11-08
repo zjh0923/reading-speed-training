@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="header">
+    <view class="header-top">
+      <text class="title">选择训练账号</text>
+      <button class="close-btn" bindtap="goBack">×</button>
+    </view>
+    <text class="subtitle">请选择要使用的账号，或创建新账号</text>
+  </view>
+
+  <view class="account-list">
+    <block wx:for="{{accountList}}" wx:key="accountId">
+      <view class="account-item {{item.isCurrent ? 'current' : ''}}">
+        <image class="avatar" src="{{item.photo || '/images/default-avatar.png'}}"></image>
+        <view class="info-container">
+          <view class="info">
+            <text class="name">{{item.name}}</text>
+            <text class="details">{{item.grade}}年级{{item.class}}班 </text>
+            <text class="details">{{item.group}}组</text>
+          </view>
+        </view>
+        <view class="actions">
+          <text wx:if="{{item.isCurrent}}" class="current-badge">当前使用</text>
+          <view wx:else class="action-buttons">
+            <button class="select-btn" bindtap="selectAccount" data-account="{{item}}">使用</button>
+            <button class="edit-btn" bindtap="editAccount" data-account="{{item}}">编辑</button>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 没有账号时的提示 -->
+    <view wx:if="{{accountList.length === 0}}" class="empty-state">
+      <text class="empty-text">暂无账号，请创建第一个账号</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <button class="add-btn" bindtap="createNewAccount">
+      <text>+ 创建新账号</text>
+    </button>
+  </view>
+</view>

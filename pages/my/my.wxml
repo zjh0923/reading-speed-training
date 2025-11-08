@@ -1,13 +1,21 @@
-<view >
+<view>
     <view class="top-view">
-      <view class="user">
-        <view class="row">
-          <image class="avatar" src="{{userInfo.photo}}"></image>
-          <view class="name">
-            <view bindtap="logout">{{userInfo.name}}</view>
+      <!-- 在用户信息区域添加切换账号按钮 -->
+      <view class="user-header">
+        <view class="user">
+          <view class="row">
+            <image class="avatar" src="{{userInfo.photo}}"></image>
+            <view class="name">
+              <view>{{userInfo.name}}</view>
+            </view>
           </view>
         </view>
+        <!-- 右上角切换账号按钮 -->
+        <button class="switch-account-btn" bindtap="switchAccount">
+          <text class="switch-text">切换账号</text>
+        </button>
       </view>
+      
       <view class="numbers">
         <view class="row">
           <text>组别</text>

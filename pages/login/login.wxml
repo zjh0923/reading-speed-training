@@ -1,22 +1,30 @@
-<view class="rule">
-  <text >请准确填写以下信息后点击提交！</text>
-</view>
-<button class="btn" open-type="chooseAvatar" bindchooseavatar="choosePhoto">
-  <!-- 当没有头像时显示默认图标 -->
-  <image wx:if="{{photo}}" src="{{photo}}" class="photo"/>
-  <view wx:else class="default-avatar" style="font-size:100rpx;color:rgb(232, 224, 240);text-align:center;line-height:100rpx;">  👤
-</view>
-</button>
-<input type="text" placeholder="姓名" bindinput="onNameInput"/>
-<picker mode="selector" range="{{['男','女']}}" bindchange="changeGender">
-  <input type="text" placeholder="性别" value="{{usergender}}" disabled/>
-</picker>
-<picker mode="selector" range="{{['3','4','5']}}" bindchange="changeGrade">
-  <input type="text" placeholder="年级" value="{{usergrade}}" disabled/>
-</picker>
-<picker mode="selector" range="{{['1','2','3']}}" bindchange="changeGroup">
-  <input type="text" placeholder="组别" value="{{usergroup}}" disabled/>
-</picker>
-<input type="text" placeholder="班级" bindinput="onClassInput"/>
-<input type="number" placeholder="年龄" bindinput="onAgeInput"/>
-<button type="primary" plain bindtap="showName">提交</button>
+<scroll-view scroll-y="true" class="page-scroll">
+  <view class="rule">
+    <text>{{isEditing ? '编辑账号信息' : '请准确填写以下信息后点击提交！'}}</text>
+  </view>
+
+  <!-- 编辑模式下显示删除按钮 -->
+  <view wx:if="{{isEditing}}" class="delete-section">
+    <button class="delete-btn" bindtap="deleteAccount">删除账号</button>
+  </view>
+
+  <button class="btn" open-type="chooseAvatar" bindchooseavatar="choosePhoto">
+    <!-- 当没有头像时显示默认图标 -->
+    <image wx:if="{{photo}}" src="{{photo}}" class="photo"/>
+    <view wx:else class="default-avatar" style="font-size:100rpx;color:rgb(232, 224, 240);text-align:center;line-height:100rpx;">  👤
+  </view>
+  </button>
+  <input type="text" placeholder="姓名" value="{{username}}" bindinput="onNameInput"/>
+  <picker mode="selector" range="{{['男','女']}}" bindchange="changeGender">
+    <input type="text" placeholder="性别" value="{{usergender}}" disabled/>
+  </picker>
+  <picker mode="selector" range="{{['3','4','5']}}" bindchange="changeGrade">
+    <input type="text" placeholder="年级" value="{{usergrade}}" disabled/>
+  </picker>
+  <picker mode="selector" range="{{['1','2','3','4']}}" bindchange="changeGroup">
+    <input type="text" placeholder="组别" value="{{usergroup}}" disabled/>
+  </picker>
+  <input type="text" placeholder="班级" value="{{userclass}}" bindinput="onClassInput"/>
+  <input type="number" placeholder="年龄" value="{{userage}}" bindinput="onAgeInput"/>
+  <button type="primary" plain bindtap="showName">{{isEditing ? '更新信息' : '提交'}}</button>
+</scroll-view> 

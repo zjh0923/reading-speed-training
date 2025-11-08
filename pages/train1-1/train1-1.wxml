@@ -2,20 +2,50 @@
 <view class="container">
   <!-- 倒计时 -->
   <view wx:if="{{showCountdown}}" class="countdown">{{countdown}}</view>
-  <!-- 阶段提示（可点击开始） -->
-  <view 
-    wx:if="{{showPhaseTip}}" 
-    class="phase-tip" 
-    bindtap="handleStartPractice"
-  >
-    <text class="phase-text">{{phaseTipText}}</text>
+
+<!-- 阶段提示（可点击开始） -->
+<view 
+  wx:if="{{showPhaseTip}}" 
+  class="phase-tip" 
+  bindtap="handleStartPractice"
+>
+  <!-- 练习阶段规则 -->
+  <view wx:if="{{isPractice}}" class="phase-card">
+    <text class="phase-title">练习阶段</text>
+    <view class="phase-content">
+      <text class="rule-item">首先先请你认真注视屏幕左边的“+”;当屏幕出现一个句子，请你认真阅读，阅读完毕后立刻点击屏幕进入答题页面；在答题页面，根据前面阅读的句子内容点击屏幕选项作答。</text>
+    </view>
+    <text class="phase-footer">（点击屏幕开始练习）</text>
+  </view>
+  
+  <!-- 正式阶段规则 -->
+  <view wx:else class="phase-card">
+    <text class="phase-title">Day{{currentDay}} 正式训练</text>
+    <view class="phase-content">
+      <text class="rule-item">当屏幕出现“＋”时，请集中注意力注视它。“＋”消失后，会出现一句话，随后这句话中的词语将依次从左到右逐个消失。待最后一个词语消失后，屏幕将显示一道与刚才句子内容相关的题目。请根据你对句子的理解，在屏幕上轻触选择正确答案。</text>
+      <text class="rule-item">初始速度: {{durationPerWord}}ms/词</text>
+    </view>
+    <text class="phase-footer">（点击屏幕开始正式训练）</text>
+  </view>
+</view>
+
+  <!-- 隐形句子（用于测量第一个字符位置，opacity:0，不会显示给用户） -->
+  <view wx:if="{{showHiddenSentence}}" class="hidden-sentence">
+    <text class="hidden-sentence-text">
+      <!-- 给首字符一个 id 以便 createSelectorQuery 测量 -->
+      <text id="firstChar" class="first-char">{{firstChar}}</text>
+      <text class="rest-chars">{{restChars}}</text>
+    </text>
   </view>
 
-  <!-- 注视点 -->
-  <view wx:if="{{showFirstFixation}}" class="fixation">+</view>
+  <!-- 注视点（仅渲染“+”，通过 left/top 精确定位到首字符位置） -->
+  <view 
+    wx:if="{{showFirstFixation}}" 
+    class="fixation" 
+    style="left:{{fixationLeft}}px; top:{{fixationTop}}px;"
+  >+</view>
+
   
-  <!-- 空白屏 -->
-  <view wx:if="{{showBlankScreen}}" class="blank-screen"></view>
 
   <!-- 全屏点击区域（核心修复部分） -->
   <view 
@@ -25,52 +55,47 @@
   >
     <view class="sentence-container">
       <!-- 练习阶段 -->
-      <block wx:if="{{isPractice}}">
+       <block wx:if="{{isPractice}}">
         <text class="sentence">{{displaySentence}}</text>
-        <view 
-          wx:if="{{showContinueTip}}" 
-          class="continue-tip"
-        ></view>
-      </block>
-
-      <!-- 正式阶段 -->
-      <block wx:else>
+       </block>
+       <block wx:else>
         <text class="sentence">
-          <block 
-            wx:for="{{wordArray}}" 
-            wx:key="index"
-          >
-            <text 
-              class="word {{index <= hiddenWordIndex ? 'hidden' : ''}}"
-            >{{item}}</text>
+          <block wx:for="{{wordArray}}" wx:key="index">
+            <text class="word {{index <= hiddenWordIndex ? 'hidden' : ''}}">{{item}}</text>
           </block>
         </text>
+       </block>
+     </view>
+  </view>
+  <!-- 空白屏 -->
+  <view wx:if="{{showBlankScreen}}" class="blank-screen"></view>
+
+  <!-- 选择题 -->
+  <view wx:if="{{showQuestions}}" class="question-container">
+    <!-- 问题文本 - 跨整个网格宽度 -->
+    <view class="question-text">{{currentQuestion.question}}</view>
+    
+    <!-- 选项网格 -->
+    <view class="options-grid">
+      <block wx:for="{{currentQuestion.options}}" wx:key="index">
+        <button 
+          class="option-btn" 
+          data-index="{{index}}" 
+          bindtap="handleAnswer"
+        >{{item}}</button>
       </block>
     </view>
   </view>
-
-  <!-- 选择题 -->
-<!-- 修改后的question-container部分 -->
-<view wx:if="{{showQuestions}}" class="question-container">
-  <!-- 问题文本 - 跨整个网格宽度 -->
-  <view class="question-text">{{currentQuestion.question}}</view>
-  
-  <!-- 选项网格 -->
-  <view class="options-grid">
-    <block wx:for="{{currentQuestion.options}}" wx:key="index">
-      <button 
-        class="option-btn" 
-        data-index="{{index}}" 
-        bindtap="handleAnswer"
-      >{{item}}</button>
-    </block>
-  </view>
+  <!-- 反馈面板 -->
+<!-- 反馈面板 -->
+<view 
+  hidden="{{!showFeedback}}" 
+  class="feedback {{feedbackClass}}"
+>
+  <text class="feedback-icon">{{feedbackSymbol}}</text>
+  <text wx:if="{{feedbackText}}" class="feedback-text">{{feedbackText}}</text>
 </view>
 
-  <!-- 反馈提示 -->
-  <view wx:if="{{showFeedback}}" class="feedback">
-    <text class="feedback-icon">{{feedbackSymbol}}</text>
-  </view>
 
   <!-- 统计面板 -->
   <view wx:if="{{showStats}}" class="stats-container">
@@ -108,6 +133,11 @@
           <text class="stat-label">训练天数:</text>
           <text class="stat-value">Day{{statsData.currentDay}}</text>
         </view>
+      </view>
+      
+      <!-- 重试按钮（仅在保存失败时显示） -->
+      <view wx:if="{{saveFailed}}" class="retry-container">
+        <button class="retry-btn" bindtap="retrySaveRecord">重新保存记录</button>
       </view>
     </view>
   </view>

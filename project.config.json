@@ -26,7 +26,8 @@
         "miniprogramNpmDistDir": "./miniprogram_npm",
         "miniprogramRoot": "reading-speed-training/"
       }
-    ]
+    ],
+    "minifyWXML": true
   },
   "condition": {},
   "editorSetting": {

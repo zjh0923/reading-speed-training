@@ -1,12 +1,15 @@
 {
   "pages": [
+    "pages/password/password",
     "pages/login/login",
     "pages/index/index",
     "pages/my/my",
     "pages/train-records/train-records",
     "pages/train1-1/train1-1",
     "pages/train3-1/train3-1",
-    "pages/train2-1/train2-1"
+    "pages/train2-1/train2-1",
+    "pages/train4-1/train4-1",
+    "pages/account-select/account-select"
   ],
   "tabBar": {
     "selectedColor": "#1c1c1b",
@@ -32,11 +35,9 @@
     "enablePullDownRefresh": false,
     "backgroundColor": "#00FFFF",
     "backgroundTextStyle": "light",
-    "navigationBarTextStyle": "black",
-    "shareTimeline": {}
+    "navigationBarTextStyle": "black"
   },
-  "usingComponents": {
-  },
+  "usingComponents": {},
   "sitemapLocation": "sitemap.json",
   "functionalPages": false,
   "lazyCodeLoading": "requiredComponents"

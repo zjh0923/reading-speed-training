@@ -18,18 +18,54 @@
 }
 /* 练习阶段提示 */
 .phase-text {
-  text-align: center;     /* 文字居中 */
-  white-space: pre-wrap;  /* 保留换行符 */
-  font-size: 23px;        /* 提示文字大小 */
+  text-align: left;     /* 文字居中 */
+  font-size: 20px;        /* 提示文字大小 */
   color: #333;            /* 文字颜色 */
-  font-weight: 500;       /* 中等字重 */
-  line-height: 1.6;       /* 1.6倍行距 */
+  padding-left: 30px;
 }
-/* 新增：阶段提示容器 */
-.phase-tip {        /* 保证容器宽度满屏 */
-  display: flex;         /* 启用弹性布局 */
-  justify-content: center; /* 水平居中 */
-  padding: 20px;         /* 增加呼吸空间 */
+/* 阶段提示容器 */
+.phase-tip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  width: 100%;
+  height: 100%;
+
+}
+/* 提示卡片 */
+.phase-card {
+  padding: 60rpx 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 标题样式 */
+.phase-title {
+  font-size: 25rpx;  /* 更大的字体 */
+  color: #333;
+  text-align: center;
+  margin-bottom: 10rpx;
+}
+/* 规则项目 */
+.rule-item {
+  display: block;
+  font-size: 20rpx;  /* 更大的字体 */
+  color: #555;
+  line-height: 1.2;
+  text-align: left;  /* 左对齐 */
+  padding-left: 80rpx;
+  padding-right: 80rpx;
+  line-height: 2;
+}
+
+/* 底部提示 */
+.phase-footer {
+  font-size: rpx;  /* 更大的字体 */
+  color: #030303;
+  text-align: center;
+  margin-top: 10rpx;
 }
 /* 注视点 */
 .fixation {
@@ -37,11 +73,14 @@
   top: 50%;               /* 垂直居中定位 */
   left: 50%;              /* 水平居中定位 */
   transform: translate(-50%, -50%); /* 精确居中 */
-  font-size: 48px;        /* +号大小 */
+  font-size: 40px;        /* +号大小 */
   font-weight: bold;      /* 粗体 */
   color: #333;            /* 深灰色 */
   margin: 0;              /* 清除边距 */
+  z-index: 9999;
+  pointer-events: none; /* 不能拦截点击事件 */
 }
+
 /* 空白屏幕 */
 .blank-screen {
   width: 100%;
@@ -49,14 +88,12 @@
 }
 /* 句子容器 */
 .sentence-container {
-  width: 80%;             /* 宽度占屏幕80% */
-  max-width: 600px;       /* 最大宽度限制 */
-  padding: 20px;          /* 内边距 */
+  width: 95%;             /* 宽度占屏幕80% */
+  padding: 10px;          /* 内边距 */
+  max-width: 800px;
 }
 /* 句子文字样式 */
 .sentence {
-  height: 100%;           /* 继承容器高度 */
-  width: 100%;            /* 继承容器宽度 */
   font-size: 24px;        /* 正文字号 */
   line-height: 1.6;       /* 行间距 */
   text-align: center;     /* 文字居中 */
@@ -73,12 +110,13 @@
 }
 
 .continue-tip {
-  font-size: 16px;
-  text-align: center;
-  margin-top: 15px;
   width: 100%;
+  color: rgb(12, 12, 12);
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
 }
-/* 新增/修改的CSS */
+
 /* 问题容器 */
 .question-container {
   width: 90%;
@@ -134,85 +172,8 @@
   transform: translateY(1px);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-/* 反馈 */
-.feedback {
-  position: absolute;      /* 绝对定位 */
-  top: 50%;                /* 垂直居中 */
-  left: 50%;               /* 水平居中 */
-  transform: translate(-50%, -50%); /* 精确居中 */
-  padding: 30px 40px;      /* 内边距 */
-  border-radius: 12px;     /* 大圆角 */
-  display: flex;           /* 弹性布局 */
-  align-items: center;     /* 垂直居中 */
-  justify-content: center; /* 水平居中 */
-  line-height: 1.5;        /* 行高 */
-  color: black;            /* 文字颜色 */
-  font-size: 25px;
-  width: auto;          /* 根据内容自适应宽度 */
-  min-width: 200px;     /* 最小宽度防止内容过窄 */
-  text-align: center;  
-  font-size: 90px; 
-  font-weight: bold;/* 文本水平居中 */
-}
-/* 练习阶段反馈 */
-.feedback.practice {
-  font-size: 80px;
-  font-weight: bold;
-}
-/* 正确反馈通用样式 */
-.feedback-icon {
-  font-size: 25px;
-  color: black;
-  font-weight: bold;
-  word-break: break-all;
-  width: 80%;
-}
-/* 正式训练错误反馈 */
-.feedback.incorrect {
-  font-size: 25px;
-  color: black;
-  font-weight: bold;
-  word-break: break-all;
-  width: 80%;
-}
-/* 控制面板 */
-.stats-container {
-  width: 80%;
-  border-radius: 8px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  text-align: center;  
-}
 
-/* 控制面板 */
-.stats-title {
-  white-space: pre-wrap;
-  font-size: 18px;
-  line-height: 1.8;
-  color: #333;
-  text-align: left;
-  padding: 10px 0;
-  text-align: center;  
-}
-/* 全屏遮罩 句子容器*/
-.full-screen-container {
-  position: fixed;         /* 固定定位 */
-  top: 0;                  /* 顶部对齐 */
-  left: 0;                 /* 左侧对齐 */
-  display: flex;           /* 弹性布局 */
-  justify-content: center; /* 水平居中 */
-  align-items: center;     /* 垂直居中 */
-}
-/* 调整提示文字样式 */
-.continue-tip {
-  color: rgb(12, 12, 12);
-  font-size: 14px;
-  margin-top: 15px;
-  text-align: center;
-}
 /* 统一所有居中元素的容器样式 */
-.fixation, 
-.feedback,
 .full-screen-container {
   position: fixed;
   top: 50%;
@@ -224,12 +185,14 @@
   justify-content: center;  /* 新增 */
   align-items: center;      /* 新增 */
 }
+
 /* 确保全屏容器内容居中 */
 .full-screen-container .sentence-container {
   display: flex;
   flex-direction: column;
   align-items: center;  /* 水平居中 */
 }
+
 .resume-tip {
   position: fixed;
   top: 20rpx;
@@ -251,6 +214,7 @@
   padding: 25px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.12);
   background-color: white;
+  text-align: center;  
 }
 
 .stats-header {
@@ -259,6 +223,8 @@
   text-align: center;
   margin-bottom: 25px;
   color: #333;
+  white-space: pre-wrap;
+  padding: 10px 0;
 }
 
 .stats-grid {
@@ -292,3 +258,76 @@
   font-weight: bold;
   color: #333;
 }
+/* 隐形测量句子：和真实句子容器样式保持一致（但不可见） */
+.hidden-sentence {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;    /* 与真实句子对齐方式一致 */
+  font-size: 24px;       /* 与 .sentence 相同的字号，保证测量一致 */
+  line-height: 1.6;
+  opacity: 0;            /* 不可见 */
+  pointer-events: none;  /* 不拦截点击 */
+  z-index: 10;
+  width: 95%;             /* 宽度占屏幕80% */
+  padding: 10px;          /* 内边距 */
+  max-width: 800px;
+}
+
+
+
+.hidden-sentence .first-char {
+  display: inline-block;   /* 让它独立计算 */
+  vertical-align: top;     /* 对齐到顶部 */
+}
+
+
+/* 反馈 */
+.feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+  padding: 30px 40px;
+  border-radius: 12px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  min-height: 120px;
+}
+
+/* 反馈图标（√/×） */
+.feedback-icon {
+  font-size: 40px;  /* 增大符号大小 */
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+/* 反馈文字 */
+.feedback-text {
+  font-size: 40px;  /* 减小文字大小 */
+  line-height: 1.3;
+  text-align: center;
+}
+
+.feedback[hidden] {
+  display: flex !important; /* 使用 flex 布局 */
+  opacity: 0;
+}
+
+.feedback:not([hidden]) {
+  opacity: 1;
+}
+
+
+

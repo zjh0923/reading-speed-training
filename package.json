@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "@vant/weapp": "^1.11.7",
-    "echarts": "^5.6.0",
-    "wx-server-sdk": "^3.0.1"
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^5.0.0"
   }
 }
