@@ -190,7 +190,7 @@ async function renderHome() {
     }
     return `
       <div class="day">
-        <img class="img" src="/images/index/${day}.png" alt="${day}" />
+        <img class="img" src="/index/${day}.png" alt="${day}" />
         <div class="day-info">
           <span class="day-text">Day${day}</span>
           ${metaHtml}
@@ -211,7 +211,7 @@ async function renderHome() {
     const html = `
       <div class="hello">hello!</div>
       <div class="container1">
-        <img class="jing" src="/images/index/jing.png" alt="jing" />
+        <img class="jing" src="/index/jing.png" alt="jing" />
         <div class="train"><span class="train-text">快来练习吧!</span></div>
       </div>
       ${section('第一周', [1,2,3,4])}
