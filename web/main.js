@@ -256,8 +256,25 @@ function renderLogin() {
     <div class="section">
       <h3>登录</h3>
       <div class="row"><input id="name" class="input" placeholder="学生姓名" /></div>
+      <div class="row">
+        <select id="gender" class="input">
+          <option value="">请选择性别</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
+        </select>
+      </div>
       <div class="row"><input id="grade" class="input" placeholder="年级（例：3）" /></div>
-      <div class="row"><input id="group" class="input" placeholder="组别（1/2/3/4）" /></div>
+      <div class="row"><input id="class" class="input" placeholder="班级" /></div>
+      <div class="row"><input id="age" class="input" type="number" placeholder="年龄" /></div>
+      <div class="row">
+        <select id="group" class="input">
+          <option value="">请选择组别</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
       <div class="row"><button class="btn" id="btn-login">登录/注册</button></div>
       <p class="muted">注：网页版本使用本地存储模拟账号与训练记录。</p>
     </div>
@@ -265,9 +282,12 @@ function renderLogin() {
   mount(html);
   document.getElementById('btn-login').addEventListener('click', async () => {
     const name = document.getElementById('name').value.trim();
+    const gender = document.getElementById('gender').value.trim();
     const grade = document.getElementById('grade').value.trim();
+    const class_ = document.getElementById('class').value.trim();
+    const age = document.getElementById('age').value.trim();
     const group = document.getElementById('group').value.trim();
-    if (!name || !grade || !group) { alert('请填写完整信息'); return; }
+    if (!name || !grade || !group) { alert('请填写完整信息（姓名、年级、组别为必填项）'); return; }
     
     let accountId = storage.get('currentAccountId');
     const createTime = new Date().toISOString();
@@ -275,7 +295,10 @@ function renderLogin() {
     // 构建完整的用户信息对象
     const userInfo = {
       name,
+      gender: gender || undefined,
       grade,
+      class: class_ || undefined,
+      age: age || undefined,
       group,
       createTime,
       accountId: accountId || `acc_${Date.now()}_${Math.random().toString(36).slice(2,9)}`
