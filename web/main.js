@@ -263,7 +263,14 @@ function renderLogin() {
           <option value="女">女</option>
         </select>
       </div>
-      <div class="row"><input id="grade" class="input" placeholder="年级（例：3）" /></div>
+      <div class="row">
+        <select id="grade" class="input">
+          <option value="">请选择年级</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
       <div class="row"><input id="class" class="input" placeholder="班级" /></div>
       <div class="row"><input id="age" class="input" type="number" placeholder="年龄" /></div>
       <div class="row">
